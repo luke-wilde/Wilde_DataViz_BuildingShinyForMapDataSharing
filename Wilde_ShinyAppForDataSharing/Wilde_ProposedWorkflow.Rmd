@@ -13,10 +13,6 @@ urlcolor: blue
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Directions
-
-This document is required to be 1 page (but can be more), overviewing your proposed project. It must be completed in R Markdown and knit to a pdf. The aim here is to lay out the scope, data set(s), and functions you propose to use for your individual project. You must upload your .Rmd file, knit .pdf, and .bib file to WyoCourses.
-
 # Goals and Topic
 Mapping terrestrial migrations has recently emerged as an essential tool for their conservation [@kauffman_2021]. An improved knowledge of the whereabouts of animal populations and key aspects of their habitats is increasing as anthropogenic influences endanger terrestrial communities [@harris_2009]. Map making can require large, often interdisciplinary teams to improve the usability and aesthetics of their design [@bolger_2007], posing a problem for many researchers with limited experience. Tools to seamlessly connect datastreams with highly technical data cleaning processes with the rest of mapping teams are essential for productivity [@zhang_2005]. Shiny apps have proved to be powerful tools for web-based applications that use large datasets and require seamless integration of computer programming with the user experience [@elliott_2020]. 
 
