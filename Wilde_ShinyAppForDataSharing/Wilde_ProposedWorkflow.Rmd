@@ -1,43 +1,41 @@
 ---
-title: "Independent Project: Proposed Workflow"
+title: "Independent Project Proposed Workflow:"
 subtitle: "A web-based application for viewing and exporting gps data in large, collaborative study"
 author: "Luke Wilde"
-date: "4/17/2022"
+date: "4/19/2022"
 output: pdf_document
+toc: true
 bibliography: Wilde_IndepProj_citations.bib
+urlcolor: blue
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Directions
+Directions
 
 This document is required to be 1 page (but can be more), overviewing your proposed project. It must be completed in R Markdown and knit to a pdf. The aim here is to lay out the scope, data set(s), and functions you propose to use for your individual project. You must upload your .Rmd file, knit .pdf, and .bib file to WyoCourses.
 
-1.	A 1-2 paragraph overview of your goals. What topic are you addressing? Why is this topic important and what knowledge gap does it fill? How does it relate to your previous research and/or to previous literature? Include at least 3 citations, linking your .bib file and .Rmd file.
-
 # Goals and Topic
-*Answer here*
+Mapping terrestrial migrations has recently emerged as an essential tool for their conservation [@kauffman_2021]. An improved knowledge of the whereabouts of animal populations and key aspects of their habitats is increasing as anthropogenic influences endanger terrestrial communities [@harris_2009]. Map making can require large, often interdisciplinary teams to improve the usability and aesthetics of their design [@bolger_2007], posing a problem for many researchers with limited experience. Tools to seamlessly connect datastreams with highly technical data cleaning processes with the rest of mapping teams are essential for productivity [@zhang_2005]. Shiny apps have proved to be powerful tools for web-based applications that use large datasets and require seamless integration of computer programming with the user experience [@elliott_2020]. 
 
-2.	An overview of your dataset(s). Describe the dataset(s) you plan to use. How are they formatted? What challenges to you foresee arising when analyzing/visualizing these datasets?
+The application will include two basic components to fulfill this goal: first, users will have a interactive and customizable map to view the movement data from any number of animals according to migration timing or a specific date range (see below *Dataset Overview* for more details); second, users will be able to export the mapped data to a .csv, .shp, or .kml file types for easy integration with any number of mapping software or field applications. Users will be the collaborative team working with the Red Desert mule deer project, my current PhD project. Without a tidy means of sharing data with collaborators, miscommunication and outdated data have become common [@wang_2020]. Thus, *my main goal is to develop a web-based Shiny application to allow collaborators of the Red Desert mule deer project to access, explore and download data.* 
 
 # Dataset Overview
-*Type here*
-
-3.	An overview of proposed workflow. What workflow will you implement? What topics generally from class will you use in implementing your workflow? What packages and functions (more specifically) from class will you use?
+Three datasets will be essential to making this application work. First, the gps data downloaded from the web and from store-on-board collars. The dataset including store-on-board data is in my possession, and is updated following each capture in March and December. I will store a copy in a location that the app can access, but where it is not public. GPS data from the collar web-service will be automatically downloaded by the user with the push of a button. Second, a table detailing the periods of time when a given collar (data are organized according to collar serial number) was on a given individual. This datatable contains dates when each collar was deployed and then removed or collected (following mortality) from each individual in the study (since 2014). Third and finally, I will include a migration timing table, which records the start and end date of Spring and Fall migration for each animal, each year that it was collared. This data is updated at the end of each year manually.
 
 # Workflow Overview
-*Type*
+This project requires a substantial workflow, namely merging datasets and filtering according to user specifications. A noteworthy exception is the dataset containing the data collected from store-on-board data. This data requires major data wrangling, and much of it was developed before my tenure. While I wish to make these tidy at some point in my PhD, I am not making that part of the scope of this project. 
 
-If you will use packages and functions that are not covered in class and are not part of Base R (i.e. where you need to load any libraries), please briefly describe them.
-*Type*
+My proposed workflow will work as follows: I will build the map functionality and the export capacity first. The map will use the leaflet package, and the exporting will use downloadHandler from Shiny. downloadHandler specifically works with a button and downloadLink in the ui that users can press to save a csv. I will explore how to use this or other GUIs to perform the spatial downloads (shp, kml). Then, I will build the tidy data workflow to filter the three datasets based on the users selection. This will work by using functions from the tidyverse, such as filter, mutate, and arrange. I will be sure to delete duplicates so that store-on-board and web data do not duplicate. 
 
-You are welcome to incorporate code beyond what we’ve discussed in class, but your workflow must also directly include concepts and functions we have covered during the semester. You are welcome to incorporate ideas presented in group projects as well!
-*Type*
+Users will select, first, to choose to select by AnimalID or migratory strategy, then based on that selection, they will be able to select either to filter by date or by known migration timing. Selections will appear reactively, thanks to the reactiveValues function, which will replace available entries based on changes to the ui. Finally, they will select the animals and the data range (time, migration) and the map will automatically populate. They will then be able to download any of the data formats to their computer, and will thus have easy access to a cleaned dataset at any time.
 
 # References
-
 <div id="refs"></div>
 
-# Supporting Materials
+# Github
+
+https://github.com/luke-wilde/Wilde_DataViz_BuildingShinyForMapDataSharing
+
