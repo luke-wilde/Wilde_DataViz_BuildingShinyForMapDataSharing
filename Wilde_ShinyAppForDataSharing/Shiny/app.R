@@ -10,6 +10,7 @@
 #    http://shiny.rstudio.com/
 #
 
+#load packages, install if needed
 library(tidyverse)
 library(lubridate)
 library(sf)
@@ -294,6 +295,10 @@ library(leaflet)
 # st_write(final.app.sf, "./Shiny/muledeer_test_data.shp", append=F)
 # 
 
+
+
+
+
 #-------------------------------------------------------#
 #### Start Here ####
 #-------------------------------------------------------#
@@ -303,8 +308,8 @@ library(leaflet)
 getwd() #make sure this is the app.R file location
 
 #load the data table and shp file
-gps.data <- read.csv("./Shiny/muledeer_test_data.csv")
-gps.sf <- st_read("./Shiny/muledeer_test_data.shp")
+gps.data <- read.csv("./muledeer_test_data.csv")
+gps.sf <- st_read("./muledeer_test_data.shp")
 
 gps.sf$POSIXct <- as.POSIXct(paste(gps.sf$POSIXct, gps.sf$Time, " "), format= "%Y-%m-%d %H:%M:%S", tz="MST")
 
@@ -328,6 +333,7 @@ ui <- dashboardPage(
                   value = range(gps.sf$POSIXct, na.rm = FALSE),
                   step = 1)
         ),
+    textInput("desn","Download folder:", value = NULL),
     #actionButton("download_shp", "Download shp file"),
     actionButton("download_csv", "Download csv file")
   ),
@@ -335,6 +341,7 @@ ui <- dashboardPage(
 )
 
 #define server with reactive functionality
+#as written now, the reactivity has to occur in a certain order, and cant iteratively react... need to fix
 server <- function(input, output, session) {
   filter_year <- reactive(
     gps.sf %>% filter(Year %in% input$Year)
@@ -387,10 +394,9 @@ server <- function(input, output, session) {
       addCircleMarkers(data = filter_range(), color="grey", fillColor = ~pal(AID),fillOpacity = 1, popup=~as.character(POSIXct))
   })})
   
-  
-  output$download_csv <- downloadHandler(
+    output$download_csv <- downloadHandler(
     filename = function(){
-      paste(getwd(),"/RDMD_datadownload_",str_replace_all(Sys.Date(),pattern="-",replacement=""),".csv",sep="")
+      paste(input$desn,str_replace_all(Sys.Date(),pattern="-",replacement=""),".csv",sep="")
     },
     content = function(file){
       write.csv(as.data.frame(filter_range()), file, row.names=F)
